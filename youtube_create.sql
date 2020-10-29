@@ -8,7 +8,8 @@ DROP TABLE IF EXISTS Manages CASCADE;--OK
 ---DOMAINS---
 -------------
 
---no--
+CREATE DOMAIN _PINTEGER AS int4 CHECK(VALUE > 0);
+CREATE DOMAIN _PZEROINTEGER AS int4 CHECK(VALUE >= 0);
 
 ------------
 ---TABLES---
