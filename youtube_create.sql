@@ -131,29 +131,15 @@ COPY Database (
         subscription_count,
         most_watched_video,
         channels,
-        category,
+        category
 )
 FROM 'database.csv'
 WITH DELIMITER ',';
 
-COPY Service_Request (
-        rid,
-        customer_id,
-        car_vin,
-        date,
-        odometer,
-        complain
+COPY Manages (
+        adds,
+        deletes,
+        edits
 )
 FROM 'service_request.csv'
-WITH DELIMITER ',';
-
-COPY Closed_Request (
-        wid,
-        rid,
-        mid,
-        date,
-        comment,
-        bill
-^_)
-FROM 'closed_request.csv'
 WITH DELIMITER ',';
