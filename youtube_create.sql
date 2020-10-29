@@ -168,4 +168,5 @@ COPY Closed_Request (
         comment,
         bill
 ^_)
--- INSERT --                                                              168,2-3       97%
+FROM 'closed_request.csv'
+WITH DELIMITER ',';
