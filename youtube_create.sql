@@ -33,7 +33,7 @@ CREATE TABLE Video
         description CHAR(5000) NOT NULL,
         video_length INTEGER NOT NULL,
         video_link CHAR(1024) NOT NULL,
-        title CHAR(100) NOT NULL,
+        video_title CHAR(100) NOT NULL,
         likes_dislikes INTEGER NOT NULL,
         tags CHAR(100) NOT NULL,
         publisher CHAR(100) NOT NULL,
