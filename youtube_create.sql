@@ -6,14 +6,8 @@ DROP TABLE IF EXISTS Database CASCADE;--OK
 -------------
 ---DOMAINS---
 -------------
-CREATE DOMAIN us_postal_code AS TEXT CHECK(VALUE ~ '^\d{5}$' OR VALUE ~ '^\d{5}-\d{4}$');
-CREATE DOMAIN _STATUS CHAR(1) CHECK (value IN ( 'W' , 'C', 'R' ) );
-CREATE DOMAIN _GENDER CHAR(1) CHECK (value IN ( 'F' , 'M' ) );
-CREATE DOMAIN _CODE CHAR(2) CHECK (value IN ( 'MJ' , 'MN', 'SV' ) ); --Major, Minimum, Service
-CREATE DOMAIN _PINTEGER AS int4 CHECK(VALUE > 0);
-CREATE DOMAIN _PZEROINTEGER AS int4 CHECK(VALUE >= 0);
-CREATE DOMAIN _YEARS AS int4 CHECK(VALUE >= 0 AND VALUE < 100);
-CREATE DOMAIN _YEAR AS int4 CHECK(VALUE >= 1970);
+
+--no--
 
 ------------
 ---TABLES---
