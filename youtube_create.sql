@@ -71,8 +71,6 @@ CREATE TABLE Database
 ---------------
 ---RELATIONS---
 
-
-
 CREATE TABLE Manages
 (
         adds INTEGER NOT NULL,
@@ -87,40 +85,55 @@ CREATE TABLE Manages
 -- INSERT DATA STATEMENTS --
 ----------------------------
 
-COPY Customer (
-        id,
-        fname,
-        lname,
-        phone,
-        address
+COPY Account (
+        account_id,
+        subcount,
+        video,
+        history,
+        recommended,
+        subscriptions
 )
-FROM 'customer.csv'
+FROM 'account.csv'
 WITH DELIMITER ',';
 
-COPY Mechanic (
-        id,
-        fname,
-        lname,
-        experience
+COPY Video (
+        account_id,
+        video_id,
+        views,
+        rating,
+        publication_date,
+        description
+        video_length,
+        video_link,
+        video_title,
+        likes_dislikes,
+        tags,
+        publisher
 )
-FROM 'mechanic.csv'
+FROM 'video.csv'
 WITH DELIMITER ',';
 
-COPY Car (
-        vin,
-        make,
-        model,
-        year
+COPY Comments (
+        account_id,
+        video_id,
+        num_replies,
+        num_comments,
+        comment_replies,
+        comment_content,
+        comment_likes
 )
-FROM 'car.csv'
+FROM 'comments.csv'
 WITH DELIMITER ',';
 
-COPY Owns (
-        ownership_id,
-        customer_id,
-        car_vin
+COPY Database (
+        account_id,
+        recommended,
+        subscription_count,
+        most_watched_video,
+        channels,
+        category,
 )
-FROM 'owns.csv'
+FROM 'database.csv'
 WITH DELIMITER ',';
 
 COPY Service_Request (
