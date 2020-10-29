@@ -141,5 +141,5 @@ COPY Manages (
         deletes,
         edits
 )
-FROM 'service_request.csv'
+FROM 'manages.csv'
 WITH DELIMITER ',';
