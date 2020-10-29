@@ -66,47 +66,21 @@ CREATE TABLE Database
         most_watched_video CHAR(100) NOT NULL,
         channels CHAR(100) NOT NULL,
         category CHAR(100) NOT NULL,
-        PRIMARY KEY (account_id)
+        FOREIGN KEY (account_id) REFERENCES Account (id)
 };
 ---------------
 ---RELATIONS---
 
 
 
-CREATE TABLE Owns
+CREATE TABLE Manages
 (
-        ownership_id INTEGER NOT NULL,
-        customer_id INTEGER NOT NULL,
-        car_vin VARCHAR(16) NOT NULL,
+        adds INTEGER NOT NULL,
+        deletes INTEGER NOT NULL,
+        edits INTEGER NOT NULL,
         PRIMARY KEY (ownership_id),
         FOREIGN KEY (customer_id) REFERENCES Customer(id),
         FOREIGN KEY (car_vin) REFERENCES Car(vin)
-);
-
-CREATE TABLE Service_Request
-(
-        rid INTEGER NOT NULL,
-        customer_id INTEGER NOT NULL,
-        car_vin VARCHAR(16) NOT NULL,
-        date DATE NOT NULL,
-        odometer _PINTEGER NOT NULL,
-        complain TEXT,
-        PRIMARY KEY (rid),
-        FOREIGN KEY (customer_id) REFERENCES Customer(id),
-        FOREIGN KEY (car_vin) REFERENCES Car(vin)
-);
-
-CREATE TABLE Closed_Request
-(
-        wid INTEGER NOT NULL,
-        rid INTEGER NOT NULL,
-        mid INTEGER NOT NULL,
-        date DATE NOT NULL,
-        comment TEXT,
-        bill _PINTEGER NOT NULL,
-        PRIMARY KEY (wid),
-        FOREIGN KEY (rid) REFERENCES Service_Request(rid),
-        FOREIGN KEY (mid) REFERENCES Mechanic(id)
 );
 
 ----------------------------
