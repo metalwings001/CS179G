@@ -26,8 +26,8 @@ CREATE TABLE Account
 
 CREATE TABLE Video
 (
+        id INTEGER NOT NULL,
         account_id INTEGER NOT NULL,
-        video_id INTEGER NOT NULL,
         views CHAR(64) NOT NULL,
         rating CHAR(3) NOT NULL,
         publication_date VARCHAR(10) NOT NULL,
@@ -38,11 +38,13 @@ CREATE TABLE Video
         likes_dislikes INTEGER NOT NULL,
         tags CHAR(100) NOT NULL,
         publisher CHAR(100) NOT NULL,
-        PRIMARY KEY (account_id, video_id)
+        PRIMARY KEY (id),
+        FOREIGN KEY (account_id) REFERENCES Account(id)
 );
 
 CREATE TABLE Comments
 (
+        id INTEGER NOT NULL,
         account_id INTEGER NOT NULL,
         video_id INTEGER NOT NULL,
         num_replies INTEGER NOT NULL,
@@ -50,7 +52,9 @@ CREATE TABLE Comments
         comment_replies CHAR(5000) NOT NULL,
         comment_content CHAR(5000) NOT NULL,
         comment_likes INTEGER NOT NULL,
-        PRIMARY KEY (account_id, video_id)
+        PRIMARY KEY (id),
+        FOREIGN KEY (account_id) REFERENCES Account(id),
+        FOREIGN KEY (video_id) REFERENCES Video(id)
 );
 
 CREATE TABLE Database
