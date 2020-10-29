@@ -72,12 +72,15 @@ CREATE TABLE Database
 
 CREATE TABLE Manages
 (
+        account_id INTEGER NOT NULL,
+        video_id INTEGER NOT NULL,
+        comment_id INTEGER NOT NULL,
         adds INTEGER NOT NULL,
         deletes INTEGER NOT NULL,
         edits INTEGER NOT NULL,
-        PRIMARY KEY (ownership_id),
-        FOREIGN KEY (customer_id) REFERENCES Customer(id),
-        FOREIGN KEY (car_vin) REFERENCES Car(vin)
+        FOREIGN KEY (account_id) REFERENCES Account(id),
+        FOREIGN KEY (video_id) REFERENCES Video(id),
+        FOREIGN KEY (comment_id) REFERENCES Comments(id)
 );
 
 ----------------------------
@@ -137,6 +140,9 @@ FROM 'database.csv'
 WITH DELIMITER ',';
 
 COPY Manages (
+        account_id,
+        video_id,
+        comment_id,
         adds,
         deletes,
         edits
