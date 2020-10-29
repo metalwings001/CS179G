@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS Manages CASCADE;--OK
 ------------
 CREATE TABLE Account
 (
-        account_id INTEGER NOT NULL,
+        id INTEGER NOT NULL,
         subcount INTEGER NOT NULL,
         video CHAR(100) NOT NULL,
         history CHAR(100) NOT NULL,
