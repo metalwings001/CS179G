@@ -85,7 +85,7 @@ CREATE TABLE Manages
 ----------------------------
 
 COPY Account (
-        account_id,
+        id,
         subcount,
         video,
         history,
@@ -96,7 +96,7 @@ FROM 'account.csv'
 WITH DELIMITER ',';
 
 COPY Video (
-        account_id,
+        id,
         video_id,
         views,
         rating,
@@ -113,6 +113,7 @@ FROM 'video.csv'
 WITH DELIMITER ',';
 
 COPY Comments (
+        id,
         account_id,
         video_id,
         num_replies,
