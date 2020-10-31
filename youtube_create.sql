@@ -97,7 +97,7 @@ COPY Account (
         subscriptions
 )
 FROM 'account.csv'
-WITH DELIMITER '\';
+WITH DELIMITER '~';
 
 COPY Video (
         id,
@@ -114,7 +114,7 @@ COPY Video (
         publisher
 )
 FROM 'video.csv'
-WITH DELIMITER '\';
+WITH DELIMITER '~';
 
 COPY Comments (
         id,
@@ -127,7 +127,7 @@ COPY Comments (
         comment_likes
 )
 FROM 'comments.csv'
-WITH DELIMITER '\';
+WITH DELIMITER '~';
 
 COPY Database (
         account_id,
@@ -138,7 +138,7 @@ COPY Database (
         category
 )
 FROM 'database.csv'
-WITH DELIMITER '\';
+WITH DELIMITER '~';
 
 COPY Manages (
         account_id,
@@ -149,4 +149,4 @@ COPY Manages (
         edits
 )
 FROM 'manages.csv'
-WITH DELIMITER '\';
+WITH DELIMITER '~';
