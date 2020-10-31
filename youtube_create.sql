@@ -29,6 +29,7 @@ CREATE TABLE Video
 (
         id INTEGER NOT NULL,
         account_id INTEGER NOT NULL,
+        num_comments, --placed num_comments here
         views CHAR(64) NOT NULL,
         rating CHAR(3) NOT NULL,
         publication_date VARCHAR(10) NOT NULL,
@@ -48,9 +49,8 @@ CREATE TABLE Comments
         id INTEGER NOT NULL,
         account_id INTEGER NOT NULL,
         video_id INTEGER NOT NULL,
-        num_replies INTEGER NOT NULL,
-        num_comments INTEGER NOT NULL,
-        comment_replies CHAR(5000) NOT NULL,
+        num_replies INTEGER NOT NULL, --removed num_comments
+        comment_replies CHAR(5000) NOT NULL, --investigate
         comment_content CHAR(5000) NOT NULL,
         comment_likes INTEGER NOT NULL,
         PRIMARY KEY (id),
