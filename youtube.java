@@ -14,6 +14,12 @@ import java.util.Scanner;
 
 public class Youtube{
     while(1){
-    //keep printing  
+    			System.out.println("MAIN MENU");
+				System.out.println("---------");
+				System.out.println("1. Add Account");
+				System.out.println("2. Add Comment");
+				System.out.println("3. Add Video");
+				System.out.println("4. List Account");
+				System.out.println("5. < EXIT");
     }
 }
