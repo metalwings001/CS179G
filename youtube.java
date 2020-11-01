@@ -11,3 +11,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+public class Youtube{
+    while(1){
+    //keep printing  
+    }
+}
