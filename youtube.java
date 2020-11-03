@@ -22,27 +22,26 @@ public class Youtube{
 			System.out.println("4. List Account");
 			System.out.println("5. < EXIT");
 	    	switch (readChoice()){
-				case 1: /*AddAccount();*/ break;
-				case 2: /*AddComment()*/; break;
-				case 3: /*AddVideo()*/; break;
-				case 4: /*ListAccount()*/; break;
+				case 1:  break;
+				case 2:  break;
+				case 3:  break;
+				case 4:  break;
 				case 5: keepon = false; break;
 		}
     }
 	
 public static int readChoice() {
 	int input;
-	// returns only if a correct value is given.
 	do {
 		System.out.print("Please make your choice: ");
-		try { // read the integer, parse it and break.
+		try { 
 			input = Integer.parseInt(in.readLine());
 			break;
 		}catch (Exception e) {
 			System.out.println("Your input is invalid!");
 			continue;
-		}//end try
+		}
 	}while (true);
 	return input;
-}//end readChoice
+}
 
