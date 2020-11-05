@@ -21,10 +21,6 @@ CREATE TABLE Account
         comment_id INTEGER NOT NULL,
         subcount INTEGER NOT NULL,
         num_videos INTEGER NOT NULL,
-        --video CHAR(100) NOT NULL, --changed to num_videos on pgadmin
-        --history CHAR(100) NOT NULL,
-        --recommended CHAR(100) NOT NULL,
-        --subscriptions CHAR(256) NOT NULL,
         PRIMARY KEY (id)
 );
 
