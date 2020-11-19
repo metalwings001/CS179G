@@ -62,7 +62,7 @@ public class App{
       //Building a process
       ProcessBuilder builder = new ProcessBuilder(command, arg);
       System.out.println("Executing the external program . . . . . . . .");
-      //Starting the process
+      //Starting the processs
       builder.start();
     }
 }
