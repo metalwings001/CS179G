@@ -3,6 +3,7 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.io.IOException;
 
 /**
  *
@@ -34,7 +35,7 @@ public class App{
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         App app = new App();
         Connection conn;
         try {
@@ -56,6 +57,12 @@ public class App{
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }       
-        
+      String command = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";
+      String arg = "C:\\Users\\Justin\\Desktop\\data\\mp4\\dog.mp4";
+      //Building a process
+      ProcessBuilder builder = new ProcessBuilder(command, arg);
+      System.out.println("Executing the external program . . . . . . . .");
+      //Starting the process
+      builder.start();
     }
 }
