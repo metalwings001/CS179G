@@ -22,7 +22,7 @@ CREATE TABLE Video
         account_id INTEGER NOT NULL,
         num_comments CHAR(32) NOT NULL, 
         publication_date CHAR(64) NOT NULL,
-        description CHAR(5000) NOT NULL,
+        description CHAR(100) NOT NULL,
         views INTEGER NOT NULL,
         video_title CHAR(100) NOT NULL,
         likes INTEGER NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE Comments
         comment_id INTEGER NOT NULL,
         account_id INTEGER NOT NULL,
         video_id INTEGER NOT NULL,
-        comment_content CHAR(5000) NOT NULL,
+        comment_content CHAR(100) NOT NULL,
         PRIMARY KEY (comment_id),
         FOREIGN KEY (account_id) REFERENCES Account(account_id),
         FOREIGN KEY (video_id) REFERENCES Video(video_id)
@@ -70,7 +70,7 @@ COPY Account (
         username,
         password
 )
-FROM 'C:\Users\Justin\Desktop\data\account.csv'
+FROM 'C:\Users\Justin\Desktop\new_db\CS179G\data\account.csv'
 WITH DELIMITER ',';
 
 COPY Video (
@@ -86,7 +86,7 @@ COPY Video (
         video_length,
         tags
 )
-FROM 'C:\Users\Justin\Desktop\data\video.csv'
+FROM 'C:\Users\Justin\Desktop\new_db\CS179G\data\video.csv'
 WITH DELIMITER ',';
 
 COPY Comments (
@@ -95,7 +95,7 @@ COPY Comments (
         video_id,
         comment_content
 )
-FROM 'C:\Users\Justin\Desktop\data\comments.csv'
+FROM 'C:\Users\Justin\Desktop\new_db\CS179G\data\comments.csv'
 WITH DELIMITER ',';
 
 COPY Manages (
@@ -105,5 +105,5 @@ COPY Manages (
         adds,
         deletes
 )
-FROM 'C:\Users\Justin\Desktop\data\manages.csv'
+FROM 'C:\Users\Justin\Desktop\new_db\CS179G\data\manages.csv'
 WITH DELIMITER ',';
