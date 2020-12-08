@@ -27,7 +27,7 @@ public class App{
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to the PostgreSQL server successfully.");
+            //System.out.println("Connected to the PostgreSQL server successfully.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -122,20 +122,20 @@ public class App{
             add_video_id = sc.nextInt();
             System.out.println("Enter a new account id (Must already EXIST in database): ");    
             add_account_id = sc.nextInt();
-            System.out.println("Enter a new num comments: ");    
-            add_num_comments = sc.nextInt();
+            //System.out.println("Enter a new num comments: ");    
+            add_num_comments = 0;
             System.out.println("Enter a new publication date: ");    
             add_publication_date = sc2.nextLine();
             System.out.println("Enter a new description: ");    
             add_description = sc2.nextLine();
-            System.out.println("Enter a new views: ");    
-            add_views = sc.nextInt();
+            //System.out.println("Enter a new views: ");    
+            add_views = 0;
             System.out.println("Enter a new video title: ");    
             add_video_title = sc2.nextLine();
-            System.out.println("Enter a new likes: ");    
-            add_likes = sc.nextInt();
-            System.out.println("Enter a new dislikes: ");    
-            add_dislikes = sc.nextInt();
+            //System.out.println("Enter a new likes: ");    
+            add_likes = 0;
+            //System.out.println("Enter a new dislikes: ");    
+            add_dislikes = 0;
             System.out.println("Enter a new video length: ");    
             add_video_length = sc.nextInt();
             System.out.println("Enter a new tags: ");    
@@ -154,6 +154,14 @@ public class App{
             pst.setString(11, add_tags);
             
             pst.executeUpdate();
+            //HDFS backend
+            Process p;
+            String command;
+            command = "cmd /c hdfs dfs -copyFromLocal C:\\Users\\Justin\\Desktop\\NewVideo\\";
+            command += add_video_title + ".mp4 /videos";
+            System.out.println("command: " + command);
+            p = Runtime.getRuntime().exec(command);
+            
 
             System.out.println("Table updated! Need to check on pgadmin or use the ListAllVideos() function");
             
@@ -163,40 +171,6 @@ public class App{
         }
     }
 
-    public static void ShareVideo() { //2
-            App app = new App();
-            Connection conn;
-
-            try{
-                conn = app.connect();
-                Statement stmt;
-                PreparedStatement pst;
-                ResultSet rs;
-                String query, deleteQuery;
-                Scanner sc = new Scanner(System.in); //int
-                
-                int remove_video_id;
-
-                System.out.println("Enter a video to delete by video id (Must not EXIST in other tables): ");   
-                remove_video_id = sc.nextInt();
-                
-                query = "SELECT * FROM video";            
-                deleteQuery = "DELETE FROM video WHERE video_id = " + remove_video_id;
-
-                stmt = conn.createStatement();
-                rs = stmt.executeQuery(query);
-                pst = conn.prepareStatement(deleteQuery);         
-
-                pst.executeUpdate();
-
-                System.out.println("Table updated! Need to check on pgadmin or use the ViewVideo() function");
-
-            } catch(Exception e) {
-                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-                System.exit(0);              
-            }
-        }
-    
     public static void ViewVideo() { //3
             App app = new App();
             Connection conn;
@@ -756,7 +730,7 @@ public class App{
     public static void main(String[] args) {
         
         boolean running = true;
-        String mainMenu = "MAIN MENU\n---------\n1. Upload Video\n2. Share Video\n3. View Video\n4. Delete Video\n5. Add Comment\n6. View Comment\n7. Search Video Title\n8. Search Video Keyword\n9. Search Video Rating\n"
+        String mainMenu = "MAIN MENU\n---------\n1. Upload Video\n3. View Video\n4. Delete Video\n5. Add Comment\n6. View Comment\n7. Search Video Title\n8. Search Video Keyword\n9. Search Video Rating\n"
                 + "10. Search Video Publication Date\n11. Search Video Owner\n12. List Video Recommendations\n13. List Most Popular Videos\n14. List Most Popular Channels\n15. List Most Popular Subscriptions\n"
                 + "16. List All Accounts\n17. List All Videos\n18. List All Comments\n19. Exit";
         while(running){
@@ -786,7 +760,7 @@ public class App{
             int choice = sc.nextInt();
             switch(choice){
                 case 1: AddVideo(); break;
-                case 2: ShareVideo(); break;
+                //case 2: ShareVideo(); break;
                 case 3: ViewVideo(); break;
                 case 4: DeleteVideo(); break;
                 case 5: AddComment(); break;
