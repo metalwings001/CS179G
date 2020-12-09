@@ -356,7 +356,7 @@ public class App{
                 while(rs.next()) {
                     String comment_content = rs.getString("comment_content");
                     int comment_id = rs.getInt("comment_id");
-                    System.out.println(  "Comment id: " + comment_id + " - " + comment_content );                    
+                    System.out.println(  "Comment id: " + comment_id + " - " + comment_content.trim() );                    
                 }            
 
             } catch(Exception e){
@@ -390,7 +390,7 @@ public class App{
                     cnt++;
                     String video_title = rs.getString("video_title");
                     int views = rs.getInt("views");
-                    System.out.println( cnt + ".) " + video_title + ": " + views + " views"  );                    
+                    System.out.println( cnt + ".) " + video_title.trim() + ": " + views + " views"  );                    
                 }            
 
             } catch(Exception e){
@@ -424,7 +424,7 @@ public class App{
                     cnt++;
                     String video_title = rs.getString("video_title");
                     String tags = rs.getString("tags");
-                    System.out.println( cnt + ".) " + video_title + ": " + tags + " category"  );                    
+                    System.out.println( cnt + ".) " + video_title.trim() + ": " + tags + " category"  );                    
                 }            
 
             } catch(Exception e){
@@ -461,7 +461,7 @@ public class App{
                     int likes = rs.getInt("likes");
                     int dislikes = rs.getInt("dislikes");
                     float rating = (likes/(likes + dislikes));
-                    System.out.println( cnt + ".) " + video_title + " - rating: " + rating  );                    
+                    System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating  );                    
                 }            
 
             } catch(Exception e){
@@ -495,7 +495,7 @@ public class App{
                     cnt++;
                     String video_title = rs.getString("video_title");
                     String publication_date = rs.getString("publication_date");
-                    System.out.println( cnt + ".) " + video_title + " - Published on: " + publication_date );                    
+                    System.out.println( cnt + ".) " + video_title.trim() + " - Published on: " + publication_date.trim() );                    
                 }            
 
             } catch(Exception e){
@@ -530,7 +530,7 @@ public class App{
                     String username = rs.getString("username");
                     int subcount = rs.getInt("subcount");
                     int num_videos = rs.getInt("num_videos");
-                    System.out.println( cnt + ".) " + username + " - " + subcount + " subscribers, " + num_videos + " videos" );                    
+                    System.out.println( cnt + ".) " + username.trim() + " - " + subcount + " subscribers, " + num_videos + " videos" );                    
                 }            
 
             } catch(Exception e){
@@ -559,7 +559,7 @@ public class App{
                 while(rs.next()) {
                     cnt++;
                     String title = rs.getString("video_title");
-                    System.out.println( cnt + ".) " + title );                    
+                    System.out.println( cnt + ".) " + title.trim() );                    
                 }            
                                
             } catch(Exception e){
@@ -588,7 +588,7 @@ public class App{
                 while(rs.next()) {
                     cnt++;
                     String title = rs.getString("video_title");
-                    System.out.println( cnt + ".) " + title );                    
+                    System.out.println( cnt + ".) " + title.trim() );                    
                 }            
 
             } catch(Exception e){
@@ -648,7 +648,7 @@ public class App{
                     cnt++;
                     String username = rs.getString("username");
                     int subcount = rs.getInt("subcount");
-                    System.out.println( cnt + ".) " + username + ": " + subcount + " subscribers"  );                    
+                    System.out.println( cnt + ".) " + username.trim() + ": " + subcount + " subscribers"  );                    
                 }            
 
             } catch(Exception e){
@@ -682,7 +682,7 @@ public class App{
                     int num_videos = rs.getInt("num_videos");
                     String username = rs.getString("username");
                     String password = rs.getString("password");
-                    System.out.println( cnt + ".) " + account_id + " | " + subcount + " | " + num_videos + " | " + username + " | " + password );                    
+                    System.out.println( cnt + ".) " + account_id + " | " + subcount + " | " + num_videos + " | " + username.trim() + " | " + password.trim() );                    
                 }            
 
             } catch(Exception e){
@@ -722,7 +722,8 @@ public class App{
                     int dislikes = rs.getInt("dislikes");
                     int video_length = rs.getInt("video_length");
                     String tags = rs.getString("tags");
-                    System.out.println( cnt + ".) " + video_id + " | " + account_id + " | " + num_comments + " | " + publication_date + " | " + description + " | " + views + " | " + video_title + " | " + likes + " | " + dislikes + " | " + video_length + " | " + tags);                    
+                    
+                    System.out.println( cnt + ".) " + video_id + " | " + account_id + " | " + num_comments + " | " + publication_date.trim() + " | " + description.trim() + " | " + views + " | " + video_title.trim() + " | " + likes + " | " + dislikes + " | " + video_length + " | " + tags.trim());                    
                 }            
 
             } catch(Exception e){
@@ -759,7 +760,7 @@ public class App{
                     int account_id = rs.getInt("account_id");
                     int video_id = rs.getInt("video_id");
                     String comment_content = rs.getString("comment_content");
-                    System.out.println( cnt + ".) " + comment_id + " | " + account_id + " | " + video_id + " | " + comment_content );                    
+                    System.out.println( cnt + ".) " + comment_id + " | " + account_id + " | " + video_id + " | " + comment_content.trim() );                    
                 }            
 
             } catch(Exception e){
@@ -785,12 +786,12 @@ public class App{
             System.out.println("6. View Comment"); //DONE      
             System.out.println("7. Search Video Title"); //DONE
             System.out.println("8. Search Video Keyword"); //DONE
-            System.out.println("9. Search Video Rating");
+            System.out.println("9. Search Video Rating"); //DEBUGGING
             System.out.println("10. Search Video Publication Date"); //DONE
             System.out.println("11. Search Video Owner"); //DONE
-            System.out.println("12. List Video Recommendations");        
+            System.out.println("12. List Video Recommendations"); //DEBUGGING        
             System.out.println("13. List Most Popular Videos"); //DONE
-            System.out.println("14. List Most Popular Channels"); 
+            System.out.println("14. List Most Popular Channels"); //DEBUGGING
             System.out.println("15. List Most Popular Subscriptions"); //DONE   
             System.out.println("16. List All Accounts"); //DONE
             System.out.println("17. List All Videos"); //DONE
