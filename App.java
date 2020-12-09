@@ -1,4 +1,4 @@
-
+package com.postgresqltutorial;
 
 import java.sql.*;
 
@@ -13,9 +13,9 @@ import java.util.*;
 
 public class App{
 
-    private final String url = "jdbc:postgresql://localhost:5000/youtube6";
+    private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user = "postgres";
-    private final String password = "1234!!";
+    private final String password = "password";
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     /**
@@ -157,7 +157,7 @@ public class App{
             //HDFS backend
             Process p;
             String command;
-            command = "cmd /c hdfs dfs -copyFromLocal C:\\Users\\Justin\\Desktop\\NewVideo\\";
+            command = "cmd /c hdfs dfs -copyFromLocal C:\\Users\\Public\\NewVideo\\";
             command += add_video_title + ".mp4 /videos";
             System.out.println("command: " + command);
             p = Runtime.getRuntime().exec(command);
@@ -166,9 +166,10 @@ public class App{
             System.out.println("Table updated! Need to check on pgadmin or use the ListAllVideos() function");
             
         } catch(Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            System.exit(0);              
-        }
+                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+                System.exit(0);              
+            }              
+        
     }
 
     public static void ViewVideo() { //3
@@ -183,18 +184,19 @@ public class App{
                 String query, command, videoTitle;
                 Scanner sc = new Scanner(System.in); 
                 
+                      
                 System.out.println("Enter a video title to view");
                 videoTitle = sc.nextLine(); 
                 System.out.println("videoTitle: " + videoTitle);
                 Process p;
                 command = "cmd /c hdfs dfs -get /videos/";
                 command += videoTitle + ".mp4";
-                command += " C:\\Users\\Justin\\Desktop\\fromHDFS";
+                command += " C:\\Users\\Public";
                 System.out.println("command: " + command);
                 p = Runtime.getRuntime().exec(command);
                 Thread.sleep(2500); //give HDFS command time to execute before playing
-                String player = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";
-                String arg = "C:\\Users\\Justin\\Desktop\\FromHDFS\\";
+                String player = "C:\\Program Files\\VideoLAN\\VLC\\vlc.exe"; //or "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe" 
+                String arg = "C:\\Users\\Public\\";
                 arg += videoTitle + ".mp4";
                 //Building a process
                 ProcessBuilder builder = new ProcessBuilder(player, arg);
@@ -206,8 +208,18 @@ public class App{
 
                 //stmt = conn.createStatement();
                 //rs = stmt.executeQuery(query);
-                                   
-
+                          
+                query = "SELECT * FROM video WHERE video_title = " + "\'" + videoTitle + "\'";
+                
+                stmt = conn.createStatement();
+                 rs = stmt.executeQuery(query);
+                       
+               while(rs.next()) {
+               int views = rs.getInt("views");
+               views = views + 1;
+               }
+               
+               //need to finish above, add a view to video(views) since this function is called. doesnt work 
             } catch(Exception e) {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
                 System.exit(0);              
@@ -309,8 +321,10 @@ public class App{
             pst.setString(4, add_comment_content); 
             
             pst.executeUpdate();
-
-            System.out.println("Table updated! Need to check on pgadmin or use the ListAllComments() function");
+            
+        
+            
+            System.out.println("Table updated! Need to check on pgadmin or use the ListComments() function");
             
         } catch(Exception e) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -717,7 +731,7 @@ public class App{
             }
         }
 
-        public static void ListAllComments(){ //18
+        public static void ListComments(){ //18
             App app = new App();
             Connection conn;
             int cnt = 0;
@@ -726,13 +740,17 @@ public class App{
                 Statement stmt; 
                 ResultSet rs;
                 String query;
-
-                query = "SELECT * FROM comments";
+                Scanner sc = new Scanner(System.in);
+                
+                System.out.println("Enter a video ID to search: ");
+                
+                int searchVideoID = sc.nextInt();
+                query = "SELECT * FROM comments WHERE video_id = " + "\'" + searchVideoID + "\'";
 
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(query);
 
-                System.out.println("Showing all comments in database:");
+                System.out.println("Showing comments from videoID: " + searchVideoID);
                 System.out.println("comment_id | account_id | video_id | comment_content");
                 
                 while(rs.next()) {
@@ -755,7 +773,7 @@ public class App{
         boolean running = true;
         String mainMenu = "MAIN MENU\n---------\n1. Upload Video\n3. View Video\n4. Delete Video\n5. Add Comment\n6. View Comment\n7. Search Video Title\n8. Search Video Keyword\n9. Search Video Rating\n"
                 + "10. Search Video Publication Date\n11. Search Video Owner\n12. List Video Recommendations\n13. List Most Popular Videos\n14. List Most Popular Channels\n15. List Most Popular Subscriptions\n"
-                + "16. List All Accounts\n17. List All Videos\n18. List All Comments\n19. Exit";
+                + "16. List All Accounts\n17. List All Videos\n18. List Comment from Video\n19. Exit";
         while(running){
             /*System.out.println("MAIN MENU");
             System.out.println("---------");
@@ -776,7 +794,7 @@ public class App{
             System.out.println("15. List Most Popular Subscriptions"); //DONE   
             System.out.println("16. List All Accounts"); //DONE
             System.out.println("17. List All Videos"); //DONE
-            System.out.println("18. List All Comments"); //DONE
+            System.out.println("18. List Comment from Video"); //DONE
             System.out.println("19. Exit"); //DONE*/
             System.out.println(mainMenu);
             Scanner sc = new Scanner(System.in);
@@ -799,7 +817,7 @@ public class App{
                 case 15: ListMostPopularSubscriptions(); break;
                 case 16: ListAllAccounts(); break;
                 case 17: ListAllVideos(); break;
-                case 18: ListAllComments(); break;
+                case 18: ListComments(); break;
                 case 19: running = false; System.out.println("Sayonara!"); break;
                 default: break;
             }
