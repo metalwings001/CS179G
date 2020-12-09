@@ -597,7 +597,7 @@ public class App{
             }
         }
         
-        public static void ListMostPopularChannels(){ //14
+        public static void ListMostPopularChannels(){ //14 //need to order account with summed views
             App app = new App();
             Connection conn;
             int cnt = 0;
@@ -606,8 +606,11 @@ public class App{
                 Statement stmt; 
                 ResultSet rs;
                 String query;
-
-                query = "FIX";
+                int account_id_max = 0;
+                
+                //order sum views
+                
+                query = "SELECT * FROM video ORDER BY views DESC";
 
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(query);
@@ -618,8 +621,22 @@ public class App{
                     cnt++;
                     int account_id = rs.getInt("account_id");
                     int views = rs.getInt("views");
-                    System.out.println( cnt + ".) " + account_id + ": " + views );                    
-                }            
+                    System.out.println( cnt + ".) " + account_id + ": " + views );  
+//                    if(account_id > account_id_max){
+//                        account_id_max = account_id;
+//                    }
+//                    for(int i = 1; i < account_id_max; ++i){
+//                        for(int j = 1; j < cnt; ++j){
+//                            if(i == account_id){
+//                                views += views;
+//                            }
+//                        }
+//                        System.out.println( cnt + ".) " + account_id + ": " + views );  
+//                    }
+                }     
+                
+                System.out.println("Account id max: " + account_id_max);
+                
 
             } catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -786,12 +803,12 @@ public class App{
             System.out.println("6. View Comment"); //DONE      
             System.out.println("7. Search Video Title"); //DONE
             System.out.println("8. Search Video Keyword"); //DONE
-            System.out.println("9. Search Video Rating"); //DEBUGGING
+            System.out.println("9. Search Video Rating"); //FIX
             System.out.println("10. Search Video Publication Date"); //DONE
             System.out.println("11. Search Video Owner"); //DONE
-            System.out.println("12. List Video Recommendations"); //DEBUGGING        
+            System.out.println("12. List Video Recommendations"); //FIX    
             System.out.println("13. List Most Popular Videos"); //DONE
-            System.out.println("14. List Most Popular Channels"); //DEBUGGING
+            System.out.println("14. List Most Popular Channels"); //FIX
             System.out.println("15. List Most Popular Subscriptions"); //DONE   
             System.out.println("16. List All Accounts"); //DONE
             System.out.println("17. List All Videos"); //DONE
