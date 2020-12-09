@@ -19,7 +19,7 @@ public class App{
 
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user = "postgres";
-    private final String password = "32aLs67!";
+    private final String password = "password";
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     /**
