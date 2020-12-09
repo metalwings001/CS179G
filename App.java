@@ -192,7 +192,7 @@ public class App{
                 command += " C:\\Users\\Justin\\Desktop\\fromHDFS";
                 System.out.println("command: " + command);
                 p = Runtime.getRuntime().exec(command);
-                Thread.sleep(1000); //give HDFS command time to execute before playing
+                Thread.sleep(2500); //give HDFS command time to execute before playing
                 String player = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";
                 String arg = "C:\\Users\\Justin\\Desktop\\FromHDFS\\";
                 arg += videoTitle + ".mp4";
@@ -238,8 +238,31 @@ public class App{
                 rs = stmt.executeQuery(query);
                 pst = conn.prepareStatement(deleteQuery);         
 
+               
+                
+                //HDFS backend
+                String videoTitle, trimmedTitle;
+                query = "SELECT video_title FROM video WHERE video_id=";
+                query += remove_video_id;
+                rs = stmt.executeQuery(query);
+                rs.next();
+                videoTitle = rs.getString("video_title");
+                trimmedTitle = videoTitle.trim();
+                System.out.println( "Video title: " + videoTitle);
+                
+                
+                Process p;
+                String command;
+                command = "cmd /c hdfs dfs -rm -R /videos/";
+                command += trimmedTitle + ".mp4";
+                System.out.println("command: " + command);
+                p = Runtime.getRuntime().exec(command);
+                command = "cmd /c del C:\\Users\\Justin\\Desktop\\fromHDFS\\" + trimmedTitle + ".mp4";
+                System.out.println("command2: " + command);
+                p = Runtime.getRuntime().exec(command);
+                
+                
                 pst.executeUpdate();
-
                 System.out.println("Table updated! Need to check on pgadmin or use the ListAllVideos() function");
 
             } catch(Exception e) {
