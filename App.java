@@ -286,12 +286,13 @@ public class App{
             Statement stmt;
             PreparedStatement pst;
             ResultSet rs;
-            String query, insertQuery;
+            String query, insertQuery, query2;
             Scanner sc = new Scanner(System.in);
             Scanner sc2 = new Scanner(System.in);
             
             query = "SELECT * FROM comments";
             insertQuery = "INSERT INTO comments(comment_id, account_id, video_id, comment_content) VALUES (?,?,?,?)";
+            
             
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
@@ -299,7 +300,7 @@ public class App{
               
             int add_comment_id, add_account_id, add_video_id;
             String add_comment_content;
-         
+            
             System.out.println("Enter a new comment id (Must be UNIQUE): ");    
             add_comment_id = sc.nextInt();
             System.out.println("Enter a new account id (Must already EXIST in database): ");                
@@ -308,7 +309,7 @@ public class App{
             add_video_id = sc.nextInt();
             System.out.println("Enter new comment content: ");                
             add_comment_content = sc2.nextLine(); 
-
+            
             pst.setInt(1, add_comment_id);
             pst.setInt(2, add_account_id); 
             pst.setInt(3, add_video_id);   
@@ -316,7 +317,11 @@ public class App{
             
             pst.executeUpdate();
             
-        
+            query2 = "UPDATE video SET num_comments = num_comments + 1 WHERE video_id = " + add_video_id;
+         
+             stmt = conn.createStatement();
+             pst = conn.prepareStatement(query2);
+             pst.executeUpdate();
             
             System.out.println("Table updated! Need to check on pgadmin or use the ListComments() function");
             
@@ -324,7 +329,7 @@ public class App{
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);              
         }
-    }    
+    }
 
             public static void ViewComment(){ //6
             App app = new App();
