@@ -206,19 +206,13 @@ public class App{
                 //query = "SELECT * FROM video";            
                 
 
-                //stmt = conn.createStatement();
-                //rs = stmt.executeQuery(query);
-                          
-                query = "SELECT * FROM video WHERE video_title = " + "\'" + videoTitle + "\'";
+                //increments view by 1 everytime you successfully view a video with correct videoTitle.
+                query = "UPDATE video SET views = views + 1 WHERE video_title = " + "\'" + videoTitle + "\'";
                 
                 stmt = conn.createStatement();
-                 rs = stmt.executeQuery(query);
-                       
-               while(rs.next()) {
-               int views = rs.getInt("views");
-               views = views + 1;
-               }
-               
+                pst = conn.prepareStatement(query);
+                pst.executeUpdate();
+                 
                //need to finish above, add a view to video(views) since this function is called. doesnt work 
             } catch(Exception e) {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
