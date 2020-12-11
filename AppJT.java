@@ -15,7 +15,7 @@ public class App{
 
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user = "postgres";
-    private final String password = "password";
+    private final String password = "32aLs67!";
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     /**
@@ -611,10 +611,9 @@ public class App{
                 
                 Vector<Integer>all_account_id = new Vector<>();
                 Vector<Integer>all_views = new Vector<>();
-                //all_account_id.add(1);
-                        
-                //order sum views
-                
+                Vector<Integer>list_total_views = new Vector<>();
+                Vector<Integer>single_record_account_id = new Vector<>();
+                                      
                 query = "SELECT * FROM account ORDER BY account_id DESC";
                 query2 = "SELECT * FROM video ORDER BY account_id ASC";
 
@@ -632,63 +631,32 @@ public class App{
                     all_account_id.add(account_id);
                     all_views.add(views);
                     
-                    //System.out.println( cnt + ".) " + account_id + ": " + views );
-                    
                 }
                 
+                //if you want to debug
                 //System.out.println("Values in vector all_account_id: " + all_account_id);
                 //System.out.println("Values in vector all_views: " + all_views);
+
                 int i, j; 
-                
-                //almost works
                 for(i = j = 0; i < all_account_id.size() - 1 && j < all_views.size() - 1; ++i, ++j){
                     if(all_account_id.elementAt(i) == all_account_id.elementAt(i + 1)){
                         total_views += all_views.elementAt(j);
                     }
                     else{
                         cnt2++;
+                        total_views += all_views.elementAt(j);
                         System.out.println( cnt2 + ".) " + total_views);
+                        list_total_views.add(total_views);
                         total_views = 0;
                     }
                 }
                 
                 cnt2++;
+                total_views += all_views.elementAt(all_views.size() - 1);
                 System.out.println( cnt2 + ".) " + total_views);
-                
-                //>_<
-//                for(int i = 0; i < all_account_id.size(); ++i){
-//                    for(int j = i + 1; j < all_account_id.size(); ++j){
-//                        if(all_account_id.elementAt(i) == all_account_id.elementAt(j)){
-//                            total_views += all_views.elementAt(i);
-//                        }
-//                        else{
-//                            cnt2++;
-//                            System.out.println( cnt2 + ".) " + total_views);
-//                            total_views = 0;
-//                        }
-//                    }
-//                }
-                
-//                while(rs.next()) {
-//                    cnt++;
-//                    int account_id = rs2.getInt("account_id");
-//                    int views = rs.getInt("views");
-//                    System.out.println( cnt + ".) " + account_id + ": " + views );  
-////                    if(account_id > account_id_max){
-////                        account_id_max = account_id;
-////                    }
-////                    for(int i = 1; i < account_id_max; ++i){
-////                        for(int j = 1; j < cnt; ++j){
-////                            if(i == account_id){
-////                                views += views;
-////                            }
-////                        }
-////                        System.out.println( cnt + ".) " + account_id + ": " + views );  
-////                    }
-//                }     
-                
-                //System.out.println("Account id max: " + account_id_max);
-                
+                list_total_views.add(total_views);
+
+                System.out.println("\nValues in vector all_views: " + list_total_views);                
 
             } catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
