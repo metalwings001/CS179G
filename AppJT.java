@@ -614,11 +614,10 @@ public class App{
                 Vector<Integer>list_total_views = new Vector<>();
                 Vector<Integer>single_record_account_id = new Vector<>();
                                       
-                query = "SELECT * FROM account ORDER BY account_id DESC";
                 query2 = "SELECT * FROM video ORDER BY account_id ASC";
 
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery(query);
+
                 rs2 = stmt.executeQuery(query2);
 
                 System.out.println("Most viewed users:");
@@ -645,6 +644,7 @@ public class App{
                     else{
                         cnt2++;
                         total_views += all_views.elementAt(j);
+                        single_record_account_id.add(all_account_id.elementAt(j));
                         System.out.println( cnt2 + ".) " + total_views);
                         list_total_views.add(total_views);
                         total_views = 0;
@@ -654,10 +654,34 @@ public class App{
                 cnt2++;
                 total_views += all_views.elementAt(all_views.size() - 1);
                 System.out.println( cnt2 + ".) " + total_views);
+                single_record_account_id.add(all_account_id.elementAt(j));
                 list_total_views.add(total_views);
+                
+                //Unsorted                
+                System.out.println("\nValues in vector list_total_views: " + list_total_views);                
+                System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
 
-                System.out.println("\nValues in vector all_views: " + list_total_views);                
-
+                int k, l;
+                
+                for(k = l = 0; k < single_record_account_id.size() - 1 && l < list_total_views.size() - 1; ++k, ++l){
+                    for(int m = l + 1; m < list_total_views.size(); ++m){
+                        if(list_total_views.elementAt(l) < list_total_views.elementAt(m)){
+                            Collections.swap(list_total_views, l, m);  
+                            Collections.swap(single_record_account_id, k, m);
+                        }
+                    }
+                }
+                
+                //Sorted
+                System.out.println("\nValues in vector list_total_views: " + list_total_views);                
+                System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
+                
+                query = "SELECT * FROM account WHERE account_id = " + "\'" + single_record_account_id.elementAt(k) + "\'";    
+                
+                rs = stmt.executeQuery(query);
+                
+                
+                
             } catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
                 System.exit(0);           
