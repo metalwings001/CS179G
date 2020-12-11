@@ -15,7 +15,7 @@ public class App{
 
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user = "postgres";
-    private final String password = "32aLs67!";
+    private final String password = "password";
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     /**
@@ -658,8 +658,8 @@ public class App{
                 list_total_views.add(total_views);
                 
                 //Unsorted                
-                System.out.println("\nValues in vector list_total_views: " + list_total_views);                
-                System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
+                //System.out.println("\nValues in vector list_total_views: " + list_total_views);                
+                //System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
 
                 int k, l;
                 
@@ -673,14 +673,21 @@ public class App{
                 }
                 
                 //Sorted
-                System.out.println("\nValues in vector list_total_views: " + list_total_views);                
-                System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
+                //System.out.println("\nValues in vector list_total_views: " + list_total_views);                
+                //System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
                 
-                query = "SELECT * FROM account WHERE account_id = " + "\'" + single_record_account_id.elementAt(k) + "\'";    
+                int cnt3 = 0;
                 
-                rs = stmt.executeQuery(query);
-                
-                
+                for(int p = 0; p < single_record_account_id.size(); ++p){
+                    query = "SELECT * FROM account WHERE account_id = " + "\'" + single_record_account_id.elementAt(p) + "\'";  
+                    rs = stmt.executeQuery(query);
+                    while(rs.next()){
+                        String username = rs.getString("username");
+                        cnt3++;
+                        System.out.println( cnt3 + ".)" + username.trim() + " - " + list_total_views.elementAt(p) + " views" );                        
+                    }
+                }
+                                                   
                 
             } catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
