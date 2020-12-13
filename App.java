@@ -13,9 +13,9 @@ import java.util.*;
 
 public class App{
 
-    private final String url = "jdbc:postgresql://localhost:5432/postgres";
+    private final String url = "jdbc:postgresql://localhost:5000/youtube6";
     private final String user = "postgres";
-    private final String password = "password";
+    private final String password = "1234!!";
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     /**
@@ -157,13 +157,16 @@ public class App{
             //HDFS backend
             Process p;
             String command;
-            command = "cmd /c hdfs dfs -copyFromLocal C:\\Users\\Public\\NewVideo\\";
+            command = "cmd /c hdfs dfs -copyFromLocal C:\\Users\\Justin\\Desktop\\NewVideo\\";
             command += add_video_title + ".mp4 /videos";
             System.out.println("command: " + command);
             p = Runtime.getRuntime().exec(command);
             
 
             System.out.println("Table updated! Need to check on pgadmin or use the ListAllVideos() function");
+            
+
+            
             
         } catch(Exception e) {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -184,19 +187,18 @@ public class App{
                 String query, command, videoTitle;
                 Scanner sc = new Scanner(System.in); 
                 
-                      
                 System.out.println("Enter a video title to view");
                 videoTitle = sc.nextLine(); 
                 System.out.println("videoTitle: " + videoTitle);
                 Process p;
                 command = "cmd /c hdfs dfs -get /videos/";
                 command += videoTitle + ".mp4";
-                command += " C:\\Users\\Public";
+                command += " C:\\Users\\Justin\\Desktop\\fromHDFS";
                 System.out.println("command: " + command);
                 p = Runtime.getRuntime().exec(command);
                 Thread.sleep(2500); //give HDFS command time to execute before playing
-                String player = "C:\\Program Files\\VideoLAN\\VLC\\vlc.exe"; //or "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe" 
-                String arg = "C:\\Users\\Public\\";
+                String player = "C:\\Program Files (x86)\\Windows Media Player\\wmplayer.exe";
+                String arg = "C:\\Users\\Justin\\Desktop\\FromHDFS\\";
                 arg += videoTitle + ".mp4";
                 //Building a process
                 ProcessBuilder builder = new ProcessBuilder(player, arg);
@@ -206,19 +208,13 @@ public class App{
                 //query = "SELECT * FROM video";            
                 
 
-                //stmt = conn.createStatement();
-                //rs = stmt.executeQuery(query);
-                          
-                query = "SELECT * FROM video WHERE video_title = " + "\'" + videoTitle + "\'";
+                //increments view by 1 everytime you successfully view a video with correct videoTitle.
+                query = "UPDATE video SET views = views + 1 WHERE video_title = " + "\'" + videoTitle + "\'";
                 
                 stmt = conn.createStatement();
-                 rs = stmt.executeQuery(query);
-                       
-               while(rs.next()) {
-               int views = rs.getInt("views");
-               views = views + 1;
-               }
-               
+                pst = conn.prepareStatement(query);
+                pst.executeUpdate();
+                 
                //need to finish above, add a view to video(views) since this function is called. doesnt work 
             } catch(Exception e) {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -292,12 +288,13 @@ public class App{
             Statement stmt;
             PreparedStatement pst;
             ResultSet rs;
-            String query, insertQuery;
+            String query, insertQuery, query2;
             Scanner sc = new Scanner(System.in);
             Scanner sc2 = new Scanner(System.in);
             
             query = "SELECT * FROM comments";
             insertQuery = "INSERT INTO comments(comment_id, account_id, video_id, comment_content) VALUES (?,?,?,?)";
+            
             
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
@@ -305,7 +302,7 @@ public class App{
               
             int add_comment_id, add_account_id, add_video_id;
             String add_comment_content;
-         
+            
             System.out.println("Enter a new comment id (Must be UNIQUE): ");    
             add_comment_id = sc.nextInt();
             System.out.println("Enter a new account id (Must already EXIST in database): ");                
@@ -314,7 +311,7 @@ public class App{
             add_video_id = sc.nextInt();
             System.out.println("Enter new comment content: ");                
             add_comment_content = sc2.nextLine(); 
-
+            
             pst.setInt(1, add_comment_id);
             pst.setInt(2, add_account_id); 
             pst.setInt(3, add_video_id);   
@@ -322,7 +319,11 @@ public class App{
             
             pst.executeUpdate();
             
-        
+            query2 = "UPDATE video SET num_comments = num_comments + 1 WHERE video_id = " + add_video_id;
+         
+             stmt = conn.createStatement();
+             pst = conn.prepareStatement(query2);
+             pst.executeUpdate();
             
             System.out.println("Table updated! Need to check on pgadmin or use the ListComments() function");
             
@@ -330,7 +331,7 @@ public class App{
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);              
         }
-    }    
+    } 
 
             public static void ViewComment(){ //6
             App app = new App();
@@ -601,43 +602,94 @@ public class App{
             App app = new App();
             Connection conn;
             int cnt = 0;
+            int cnt2 = 0;
             try{
                 conn = app.connect();
                 Statement stmt; 
-                ResultSet rs;
-                String query;
-                int account_id_max = 0;
+                ResultSet rs, rs2;
+                String query, query2;
+                int total_views = 0;
                 
-                //order sum views
-                
-                query = "SELECT * FROM video ORDER BY views DESC";
+                Vector<Integer>all_account_id = new Vector<>();
+                Vector<Integer>all_views = new Vector<>();
+                Vector<Integer>list_total_views = new Vector<>();
+                Vector<Integer>single_record_account_id = new Vector<>();
+                                      
+                query2 = "SELECT * FROM video ORDER BY account_id ASC";
 
                 stmt = conn.createStatement();
-                rs = stmt.executeQuery(query);
+
+                rs2 = stmt.executeQuery(query2);
 
                 System.out.println("Most viewed users:");
 
-                while(rs.next()) {
+                while(rs2.next()) {
                     cnt++;
-                    int account_id = rs.getInt("account_id");
-                    int views = rs.getInt("views");
-                    System.out.println( cnt + ".) " + account_id + ": " + views );  
-//                    if(account_id > account_id_max){
-//                        account_id_max = account_id;
-//                    }
-//                    for(int i = 1; i < account_id_max; ++i){
-//                        for(int j = 1; j < cnt; ++j){
-//                            if(i == account_id){
-//                                views += views;
-//                            }
-//                        }
-//                        System.out.println( cnt + ".) " + account_id + ": " + views );  
-//                    }
-                }     
+                    int account_id = rs2.getInt("account_id");
+                    int views = rs2.getInt("views"); //store views in vector
+                    
+                    all_account_id.add(account_id);
+                    all_views.add(views);
+                    
+                }
                 
-                System.out.println("Account id max: " + account_id_max);
-                
+                //if you want to debug
+                //System.out.println("Values in vector all_account_id: " + all_account_id);
+                //System.out.println("Values in vector all_views: " + all_views);
 
+                int i, j; 
+                for(i = j = 0; i < all_account_id.size() - 1 && j < all_views.size() - 1; ++i, ++j){
+                    if(all_account_id.elementAt(i) == all_account_id.elementAt(i + 1)){
+                        total_views += all_views.elementAt(j);
+                    }
+                    else{
+                        cnt2++;
+                        total_views += all_views.elementAt(j);
+                        single_record_account_id.add(all_account_id.elementAt(j));
+                        System.out.println( cnt2 + ".) " + total_views);
+                        list_total_views.add(total_views);
+                        total_views = 0;
+                    }
+                }
+                
+                cnt2++;
+                total_views += all_views.elementAt(all_views.size() - 1);
+                System.out.println( cnt2 + ".) " + total_views);
+                single_record_account_id.add(all_account_id.elementAt(j));
+                list_total_views.add(total_views);
+                
+                //Unsorted                
+                //System.out.println("\nValues in vector list_total_views: " + list_total_views);                
+                //System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
+
+                int k, l;
+                
+                for(k = l = 0; k < single_record_account_id.size() - 1 && l < list_total_views.size() - 1; ++k, ++l){
+                    for(int m = l + 1; m < list_total_views.size(); ++m){
+                        if(list_total_views.elementAt(l) < list_total_views.elementAt(m)){
+                            Collections.swap(list_total_views, l, m);  
+                            Collections.swap(single_record_account_id, k, m);
+                        }
+                    }
+                }
+                
+                //Sorted
+                //System.out.println("\nValues in vector list_total_views: " + list_total_views);                
+                //System.out.println("\nValues in vector single_record_account_id: " + single_record_account_id + "\n");
+                
+                int cnt3 = 0;
+                
+                for(int p = 0; p < single_record_account_id.size(); ++p){
+                    query = "SELECT * FROM account WHERE account_id = " + "\'" + single_record_account_id.elementAt(p) + "\'";  
+                    rs = stmt.executeQuery(query);
+                    while(rs.next()){
+                        String username = rs.getString("username");
+                        cnt3++;
+                        System.out.println( cnt3 + ".)" + username.trim() + " - " + list_total_views.elementAt(p) + " views" );                        
+                    }
+                }
+                                                   
+                
             } catch(Exception e){
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
                 System.exit(0);           
@@ -797,7 +849,7 @@ public class App{
             System.out.println("---------");
             System.out.println("1. Upload Video"); //DONE
             System.out.println("2. Share Video");
-            System.out.println("3. View Video"); 
+            System.out.println("3. View Video"); //ARA
             System.out.println("4. Delete Video"); //DONE
             System.out.println("5. Add Comment"); //DONE
             System.out.println("6. View Comment"); //DONE      
@@ -820,7 +872,7 @@ public class App{
             switch(choice){
                 case 1: AddVideo(); break;
                 //case 2: ShareVideo(); break;
-                case 3: ViewVideo(); break;
+                case 3: ViewVideo(); break; //work
                 case 4: DeleteVideo(); break;
                 case 5: AddComment(); break;
                 case 6: ViewComment(); break;
@@ -829,7 +881,7 @@ public class App{
                 case 9: SearchVideoRating(); break;
                 case 10: SearchVideoPublicationDate(); break;
                 case 11: SearchVideoOwner(); break;
-                case 12: ListVideoRecommendations(); break;
+                case 12: ListVideoRecommendations(); break; //work
                 case 13: ListMostPopularVideos(); break;
                 case 14: ListMostPopularChannels(); break;
                 case 15: ListMostPopularSubscriptions(); break;
