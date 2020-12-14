@@ -1,4 +1,4 @@
-package com.postgresqltutorial;
+
 
 import java.sql.*;
 
@@ -162,6 +162,11 @@ public class App{
             System.out.println("command: " + command);
             p = Runtime.getRuntime().exec(command);
             
+            /*query = "UPDATE account SET views = views + 1 WHERE video_title = " + "\'" + videoTitle + "\'";
+                
+            stmt = conn.createStatement();
+            pst = conn.prepareStatement(query);
+            pst.executeUpdate();*/
 
             System.out.println("Table updated! Need to check on pgadmin or use the ListAllVideos() function");
             
@@ -425,7 +430,7 @@ public class App{
                     cnt++;
                     String video_title = rs.getString("video_title");
                     String tags = rs.getString("tags");
-                    System.out.println( cnt + ".) " + video_title.trim() + ": " + tags + " category"  );                    
+                    System.out.println( cnt + ".) " + video_title.trim() + ": " + tags.trim() + " category"  );                    
                 }            
 
             } catch(Exception e){
@@ -807,9 +812,9 @@ public class App{
             int cnt = 0;
             try{
                 conn = app.connect();
-                Statement stmt; 
-                ResultSet rs;
-                String query;
+                Statement stmt, stmt2; 
+                ResultSet rs, rs2;
+                String query, query2,username;
                 Scanner sc = new Scanner(System.in);
                 
                 System.out.println("Enter a video ID to search: ");
@@ -821,15 +826,23 @@ public class App{
                 rs = stmt.executeQuery(query);
 
                 System.out.println("Showing comments from videoID: " + searchVideoID);
-                System.out.println("comment_id | account_id | video_id | comment_content");
+                //System.out.println("comment_id | account_id | video_id | comment_content");
                 
                 while(rs.next()) {
                     cnt++;
-                    int comment_id = rs.getInt("comment_id");
                     int account_id = rs.getInt("account_id");
-                    int video_id = rs.getInt("video_id");
                     String comment_content = rs.getString("comment_content");
-                    System.out.println( cnt + ".) " + comment_id + " | " + account_id + " | " + video_id + " | " + comment_content.trim() );                    
+                    query2 = "SELECT username FROM account WHERE account_id=" + account_id;
+                    stmt2 = conn.createStatement();
+                    rs2 = stmt2.executeQuery(query2);
+                    rs2.next();
+                    username = rs2.getString("username");
+                    //int comment_id = rs.getInt("comment_id");
+                    //int account_id = rs.getInt("account_id");
+                    //int video_id = rs.getInt("video_id");
+                    
+                    //System.out.println( cnt + ".) " + comment_id + " | " + account_id + " | " + video_id + " | " + comment_content.trim() );  
+                    System.out.println( cnt + ".) " + username.trim() + ": " + comment_content.trim() );  
                 }            
 
             } catch(Exception e){
