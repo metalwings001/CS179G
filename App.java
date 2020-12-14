@@ -251,6 +251,7 @@ public class App{
             Connection conn;
 
             try{
+                int account_id, remove_video_id;
                 conn = app.connect();
                 Statement stmt;
                 PreparedStatement pst;
@@ -258,10 +259,29 @@ public class App{
                 String query, deleteQuery;
                 Scanner sc = new Scanner(System.in); //int
                 
-                int remove_video_id;
-
-                System.out.println("Enter a video to delete by video id (Must not EXIST in other tables): ");   
+                System.out.println("Enter a video to delete by video id");   
                 remove_video_id = sc.nextInt();
+                
+                query = "SELECT account_id FROM video where video_id=" + remove_video_id;
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(query);
+                rs.next();
+                account_id = rs.getInt("account_id");
+                System.out.println("account_id: " + account_id);
+                
+                query = "UPDATE account SET num_videos = num_videos - 1 WHERE account_id =" + account_id;
+                
+                stmt = conn.createStatement();
+                pst = conn.prepareStatement(query);
+                pst.executeUpdate();
+                
+                     
+                query = "DELETE FROM comments WHERE video_id =" + remove_video_id;
+                stmt = conn.createStatement();
+                pst = conn.prepareStatement(query);
+                pst.executeUpdate();
+
+                
                 
                 query = "SELECT * FROM video";            
                 deleteQuery = "DELETE FROM video WHERE video_id = " + remove_video_id;
@@ -270,7 +290,6 @@ public class App{
                 rs = stmt.executeQuery(query);
                 pst = conn.prepareStatement(deleteQuery);         
 
-               
                 
                 //HDFS backend
                 String videoTitle, trimmedTitle;
