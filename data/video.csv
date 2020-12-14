@@ -1,4 +1,4 @@
-1,1,3,11/28/2009:15:00,baking bread,5000,wine,50,5,100,food
+1,1,3,11/28/2009:15:00,baking bread,500,wine,50,5,100,food
 2,2,3,10/18/2020:16:00,let's play,200,fall,100,50,60,nature
 3,3,4,12/28/2015:12:00,java getting started,380,water,20,100,120,education
 4,4,3,8/28/2004:1:00,adventure,120,couple,10,2,60,people
@@ -8,3 +8,13 @@
 8,3,0,4/18/2010:18:00,fred,100,food,5,2,10,food
 9,4,0,2/28/2010:16:00,skill,20,landscape,10,4,15,nature
 10,5,0,2/18/2010:18:00,colors,25,pumpkin,2,3,70,people
+11,1,0,2/18/2010:18:00,tasty,800,candy,10,1,50,food
+12,1,0,2/18/2010:18:00,cool,650,city,30,5,30,city
+13,2,0,2/18/2010:18:00,beautiful,333,island,50,3,20,nature
+14,2,0,2/18/2010:18:00,vast,222,kayak,100,5,40,nature
+15,3,0,2/18/2010:18:00,pretty,100,ornaments,120,10,30,holiday
+16,3,0,2/18/2010:18:00,nice,50,rock,130,5,10,nature
+17,4,0,2/18/2010:18:00,yummy,150,street vendor,220,10,15,city
+18,4,0,2/18/2010:18:00,amazing,180,town,100,5,30,city
+19,5,0,2/18/2010:18:00,yummy,210,turkey,50,5,10,holiday
+20,5,0,2/18/2010:18:00,awesome,100,wave,30,10,30,nature
