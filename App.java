@@ -162,11 +162,11 @@ public class App{
             System.out.println("command: " + command);
             p = Runtime.getRuntime().exec(command);
             
-            /*query = "UPDATE account SET views = views + 1 WHERE video_title = " + "\'" + videoTitle + "\'";
+            query = "UPDATE account SET num_videos = num_videos + 1 WHERE account_id =" + add_account_id;
                 
             stmt = conn.createStatement();
             pst = conn.prepareStatement(query);
-            pst.executeUpdate();*/
+            pst.executeUpdate();
 
             System.out.println("Table updated! Need to check on pgadmin or use the ListAllVideos() function");
             
@@ -185,6 +185,7 @@ public class App{
             Connection conn;
 
             try{
+                int like_dislike;
                 conn = app.connect();
                 Statement stmt;
                 PreparedStatement pst;
@@ -220,6 +221,24 @@ public class App{
                 pst = conn.prepareStatement(query);
                 pst.executeUpdate();
                  
+                
+                System.out.println("Enter 1. To like video 2. To dislike video 3. Neither");
+                like_dislike = sc.nextInt();
+                System.out.println("choice: "+like_dislike);
+                
+                if(like_dislike == 1) {
+                    query = "UPDATE video SET likes = likes + 1 WHERE video_title = " + "\'" + videoTitle + "\'";
+                    stmt = conn.createStatement();
+                    pst = conn.prepareStatement(query);
+                    pst.executeUpdate();
+                }
+                else if(like_dislike == 2) {
+                    query = "UPDATE video SET dislikes = dislikes + 1 WHERE video_title = " + "\'" + videoTitle + "\'";
+                    stmt = conn.createStatement();
+                    pst = conn.prepareStatement(query);
+                    pst.executeUpdate();
+                }
+               
                //need to finish above, add a view to video(views) since this function is called. doesnt work 
             } catch(Exception e) {
                 System.err.println( e.getClass().getName()+": "+ e.getMessage() );
@@ -466,7 +485,13 @@ public class App{
                     String video_title = rs.getString("video_title");
                     int likes = rs.getInt("likes");
                     int dislikes = rs.getInt("dislikes");
-                    float rating = (likes/(likes + dislikes));
+                    if(likes == 0) {
+                        likes = 1;
+                    }
+                    if(dislikes == 0) {
+                        dislikes = 1;
+                    }
+                    float rating = (likes/dislikes);
                     System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating  );                    
                 }            
 
