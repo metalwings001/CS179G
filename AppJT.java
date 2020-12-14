@@ -15,7 +15,7 @@ public class App{
 
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String user = "postgres";
-    private final String password = "password";
+    private final String password = "32aLs67!";
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     /**
@@ -457,10 +457,10 @@ public class App{
                 while(rs.next()) {
                     cnt++;
                     String video_title = rs.getString("video_title");
-                    int likes = rs.getInt("likes");
-                    int dislikes = rs.getInt("dislikes");
-                    float rating = (likes/(likes + dislikes));
-                    System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating  );                    
+                    float likes = rs.getInt("likes");
+                    float dislikes = rs.getInt("dislikes");
+                    float rating = (likes/(likes + dislikes)) * 100;
+                    System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating + "%"  );                    
                 }            
 
             } catch(Exception e){
