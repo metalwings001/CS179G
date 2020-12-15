@@ -488,7 +488,9 @@ public class App{
                 String query;
                 Scanner sc = new Scanner(System.in);    
                 
-                System.out.println("Enter a video rating to search: ");
+                System.out.println("Enter a video rating to search (from 0.0 to 100.0): ");
+                
+                float searchFloat = sc.nextFloat();
                 
 //                int search_video_likes = sc.nextInt();
 //                int search_video_dislikes = sc.nextInt();      
@@ -498,20 +500,20 @@ public class App{
 
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(query);
-
+                
+                System.out.println( "Listing all videos with video rating greater than or equal to searched rating: " );
+                
                 while(rs.next()) {
-                    cnt++;
+                    //cnt++;
                     String video_title = rs.getString("video_title");
-                    int likes = rs.getInt("likes");
-                    int dislikes = rs.getInt("dislikes");
-                    if(likes == 0) {
-                        likes = 1;
-                    }
-                    if(dislikes == 0) {
-                        dislikes = 1;
-                    }
-                    float rating = (likes/dislikes);
-                    System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating  );                    
+                    float likes = rs.getInt("likes");
+                    float dislikes = rs.getInt("dislikes");
+                    float rating = (likes/(likes + dislikes)) * 100;
+                    
+                    if(rating >= searchFloat){
+                        cnt++;
+                        System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating + "%"  );                           
+                    }                 
                 }            
 
             } catch(Exception e){
@@ -695,7 +697,7 @@ public class App{
                         cnt2++;
                         total_views += all_views.elementAt(j);
                         single_record_account_id.add(all_account_id.elementAt(j));
-                        System.out.println( cnt2 + ".) " + total_views);
+                        //System.out.println( cnt2 + ".) " + total_views);
                         list_total_views.add(total_views);
                         total_views = 0;
                     }
@@ -703,7 +705,7 @@ public class App{
                 
                 cnt2++;
                 total_views += all_views.elementAt(all_views.size() - 1);
-                System.out.println( cnt2 + ".) " + total_views);
+                //System.out.println( cnt2 + ".) " + total_views);
                 single_record_account_id.add(all_account_id.elementAt(j));
                 list_total_views.add(total_views);
                 
