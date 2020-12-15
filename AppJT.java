@@ -879,7 +879,7 @@ public class App{
             switch(choice){
                 case 1: AddVideo(); break;
                 //case 2: ShareVideo(); break;
-                case 3: ViewVideo(); break; //work
+                case 3: ViewVideo(); break; 
                 case 4: DeleteVideo(); break;
                 case 5: AddComment(); break;
                 case 6: ViewComment(); break;
@@ -888,7 +888,7 @@ public class App{
                 case 9: SearchVideoRating(); break;
                 case 10: SearchVideoPublicationDate(); break;
                 case 11: SearchVideoOwner(); break;
-                case 12: ListVideoRecommendations(); break; //work
+                case 12: ListVideoRecommendations(); break; 
                 case 13: ListMostPopularVideos(); break;
                 case 14: ListMostPopularChannels(); break;
                 case 15: ListMostPopularSubscriptions(); break;
@@ -896,7 +896,7 @@ public class App{
                 case 17: ListAllVideos(); break;
                 case 18: ListComments(); break;
                 case 19: running = false; System.out.println("Sayonara!"); break;
-                default: break;
+                default: break; 
             }
         }
     }
