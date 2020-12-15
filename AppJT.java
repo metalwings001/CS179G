@@ -443,7 +443,9 @@ public class App{
                 String query;
                 Scanner sc = new Scanner(System.in);    
                 
-                System.out.println("Enter a video rating to search: ");
+                System.out.println("Enter a video rating to search (from 0.0 to 100.0): ");
+                
+                float searchFloat = sc.nextFloat();
                 
 //                int search_video_likes = sc.nextInt();
 //                int search_video_dislikes = sc.nextInt();      
@@ -453,14 +455,20 @@ public class App{
 
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(query);
-
+                
+                System.out.println( "Listing all videos with video rating greater than or equal to searched rating: " );
+                
                 while(rs.next()) {
-                    cnt++;
+                    //cnt++;
                     String video_title = rs.getString("video_title");
                     float likes = rs.getInt("likes");
                     float dislikes = rs.getInt("dislikes");
                     float rating = (likes/(likes + dislikes)) * 100;
-                    System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating + "%"  );                    
+                    
+                    if(rating >= searchFloat){
+                        cnt++;
+                        System.out.println( cnt + ".) " + video_title.trim() + " - rating: " + rating + "%"  );                           
+                    }                 
                 }            
 
             } catch(Exception e){
