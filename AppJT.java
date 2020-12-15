@@ -587,7 +587,8 @@ public class App{
                 while(rs.next()) {
                     cnt++;
                     String title = rs.getString("video_title");
-                    System.out.println( cnt + ".) " + title.trim() );                    
+                    int views = rs.getInt("views");
+                    System.out.println( cnt + ".) " + title.trim() + " - " + views + " views" );                    
                 }            
 
             } catch(Exception e){
@@ -644,7 +645,7 @@ public class App{
                         cnt2++;
                         total_views += all_views.elementAt(j);
                         single_record_account_id.add(all_account_id.elementAt(j));
-                        System.out.println( cnt2 + ".) " + total_views);
+                        //System.out.println( cnt2 + ".) " + total_views);
                         list_total_views.add(total_views);
                         total_views = 0;
                     }
@@ -652,7 +653,7 @@ public class App{
                 
                 cnt2++;
                 total_views += all_views.elementAt(all_views.size() - 1);
-                System.out.println( cnt2 + ".) " + total_views);
+                //System.out.println( cnt2 + ".) " + total_views);
                 single_record_account_id.add(all_account_id.elementAt(j));
                 list_total_views.add(total_views);
                 
